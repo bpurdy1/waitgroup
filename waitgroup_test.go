@@ -21,12 +21,12 @@ func TestNewLimitWaitGroup(t *testing.T) {
 		{
 			name:          "zero max concurrent",
 			maxConcurrent: 0,
-			wantErr:       ErrInvalidMaxConcurrent,
+			wantErr:       nil,
 		},
 		{
 			name:          "negative max concurrent",
 			maxConcurrent: -1,
-			wantErr:       ErrInvalidMaxConcurrent,
+			wantErr:       nil,
 		},
 	}
 

@@ -1,12 +1,7 @@
 package waitgroup
 
 import (
-	"errors"
 	"sync"
-)
-
-var (
-	ErrInvalidMaxConcurrent = errors.New("maxConcurrent must be greater than 0")
 )
 
 type WaitGroup interface {
@@ -20,12 +15,14 @@ type LimitWaitGroup struct {
 	limit chan struct{}
 }
 
-func NewLimitWaitGroup(maxConcurrent int) (WaitGroup, error) {
-	if maxConcurrent <= 0 {
-		return nil, ErrInvalidMaxConcurrent
+// NewWaitGroup creates a WaitGroup with an optional concurrency limit.
+// If limit <= 0, it returns a standard sync.WaitGroup.
+func NewLimitWaitGroup(limit int) (WaitGroup, error) {
+	if limit <= 0 {
+		return &sync.WaitGroup{}, nil
 	}
 	return &LimitWaitGroup{
-		limit: make(chan struct{}, maxConcurrent),
+		limit: make(chan struct{}, limit),
 	}, nil
 }
 
